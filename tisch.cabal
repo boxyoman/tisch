@@ -41,7 +41,7 @@ library
     , exceptions
     , lens
     , mtl
-    , opaleye
+    , opaleye < 0.6
     , postgresql-simple
     , product-profunctors
     , profunctors

@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE DeriveDataTypeable #-}
@@ -570,7 +571,11 @@ data C (c :: Symbol) = C
 
 -- | Used by 'hsi'.
 instance GHC.IsLabel (c :: Symbol) (C c) where
+#if (__GLASGOW_HASKELL__ < 802)
   fromLabel _ = C
+#else
+  fromLabel = C
+#endif
   {-# INLINE fromLabel #-}
 
 -- | Helper function for building an 'HsI'. To construct a 'C' use the GHC's
@@ -757,7 +762,11 @@ instance forall n f t a b.
   ( ColLens n (HsR t) a b, Functor f
   ) => GHC.IsLabel n ((a -> f b) -> ((HsR t) -> f (HsR t)))
  where
+#if (__GLASGOW_HASKELL__ < 802)
   fromLabel _ = col (Proxy :: Proxy n)
+#else
+  fromLabel = col (Proxy :: Proxy n)
+#endif
   {-# INLINE fromLabel #-}
 
 -- | @#foo@ works like @'col' ('Proxy' :: 'Proxy' "foo")@ in places where a lens-like
@@ -766,7 +775,11 @@ instance forall n f t a b.
   ( ColLens n (HsI t) a b, Functor f
   ) => GHC.IsLabel n ((a -> f b) -> ((HsI t) -> f (HsI t)))
  where
+#if (__GLASGOW_HASKELL__ < 802)
   fromLabel _ = col (Proxy :: Proxy n)
+#else
+  fromLabel = col (Proxy :: Proxy n)
+#endif
   {-# INLINE fromLabel #-}
 
 -- | @#foo@ works like @'col' ('Proxy' :: 'Proxy' "foo")@ in places where a lens-like
@@ -775,7 +788,11 @@ instance forall n f t a b.
   ( ColLens n (PgR t) a b, Functor f
   ) => GHC.IsLabel n ((a -> f b) -> ((PgR t) -> f (PgR t)))
  where
+#if (__GLASGOW_HASKELL__ < 802)
   fromLabel _ = col (Proxy :: Proxy n)
+#else
+  fromLabel = col (Proxy :: Proxy n)
+#endif
   {-# INLINE fromLabel #-}
 
 -- | @#foo@ works like @'col' ('Proxy' :: 'Proxy' "foo")@ in places where a lens-like
@@ -784,7 +801,11 @@ instance forall n f t a b.
   ( ColLens n (PgRN t) a b, Functor f
   ) => GHC.IsLabel n ((a -> f b) -> ((PgRN t) -> f (PgRN t)))
  where
+#if (__GLASGOW_HASKELL__ < 802)
   fromLabel _ = col (Proxy :: Proxy n)
+#else
+  fromLabel = col (Proxy :: Proxy n)
+#endif
   {-# INLINE fromLabel #-}
 
 -- | @#foo@ works like @'col' ('Proxy' :: 'Proxy' "foo")@ in places where a lens-like
@@ -793,7 +814,11 @@ instance forall n f t a b.
   ( ColLens n (PgW t) a b, Functor f
   ) => GHC.IsLabel n ((a -> f b) -> ((PgW t) -> f (PgW t)))
  where
+#if (__GLASGOW_HASKELL__ < 802)
   fromLabel _ = col (Proxy :: Proxy n)
+#else
+  fromLabel = col (Proxy :: Proxy n)
+#endif
   {-# INLINE fromLabel #-}
 
 --------------------------------------------------------------------------------
@@ -807,27 +832,47 @@ type family Column_ByName (n :: Symbol) (cols :: [Column Symbol WCap RCap Type T
 
 -- | @#foo@ works like @'view' ('col' ('Proxy' :: 'Proxy' "foo"))@.
 instance forall n t a. (ColLens n (HsR t) a a) => GHC.IsLabel n (HsR t -> a) where
+#if (__GLASGOW_HASKELL__ < 802)
   fromLabel _ = view (col (Proxy :: Proxy n))
+#else
+  fromLabel = view (col (Proxy :: Proxy n))
+#endif
   {-# INLINE fromLabel #-}
 
 -- | @#foo@ works like @'view' ('col' ('Proxy' :: 'Proxy' "foo"))@.
 instance forall n t a. (ColLens n (HsI t) a a) => GHC.IsLabel n (HsI t -> a) where
+#if (__GLASGOW_HASKELL__ < 802)
   fromLabel _ = view (col (Proxy :: Proxy n))
+#else
+  fromLabel = view (col (Proxy :: Proxy n))
+#endif
   {-# INLINE fromLabel #-}
 
 -- | @#foo@ works like @'view' ('col' ('Proxy' :: 'Proxy' "foo"))@.
 instance forall n t a. (ColLens n (PgR t) a a) => GHC.IsLabel n (PgR t -> a) where
+#if (__GLASGOW_HASKELL__ < 802)
   fromLabel _ = view (col (Proxy :: Proxy n))
+#else
+  fromLabel = view (col (Proxy :: Proxy n))
+#endif
   {-# INLINE fromLabel #-}
 
 -- | @#foo@ works like @'view' ('col' ('Proxy' :: 'Proxy' "foo"))@.
 instance forall n t a. (ColLens n (PgRN t) a a) => GHC.IsLabel n (PgRN t -> a) where
+#if (__GLASGOW_HASKELL__ < 802)
   fromLabel _ = view (col (Proxy :: Proxy n))
+#else
+  fromLabel = view (col (Proxy :: Proxy n))
+#endif
   {-# INLINE fromLabel #-}
 
 -- | @#foo@ works like @'view' ('col' ('Proxy' :: 'Proxy' "foo"))@.
 instance forall n t a. (ColLens n (PgW t) a a) => GHC.IsLabel n (PgW t -> a) where
+#if (__GLASGOW_HASKELL__ < 802)
   fromLabel _ = view (col (Proxy :: Proxy n))
+#else
+  fromLabel = view (col (Proxy :: Proxy n))
+#endif
   {-# INLINE fromLabel #-}
 
 --------------------------------------------------------------------------------
